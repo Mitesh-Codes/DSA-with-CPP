@@ -41,6 +41,68 @@ void MovesZeroes(int arr[],int n){
     }
 }
 
+void rotate(vector<int>& nums, int k) {
+    vector<int>temp(nums.size());
+    for(int i=0;i<nums.size();i++){
+        temp[(i+k)%nums.size()]=nums[i];
+    }
+    nums=temp;
+}
+bool sortedAndRotated(vector<int>& nums) {
+    int count=0;
+    int n=nums.size();
+    for(int i=1;i<n;i++){
+        if(nums[i-1]>nums[i]){
+            count++;
+        }
+    }
+    if(nums[n-1]>nums[0]){
+        count++;
+    }
+    return count<=1;
+}
+
+
+
+vector<int> findArraySum(vector<int>&a, int n, vector<int>&b, int m) {
+	int i=n-1;
+	int j=m-1;
+	vector<int>ans;
+	int carry=0;
+	while(i>=0 && j>=0){
+		int val1=a[i];
+		int val2=b[j];
+		int sum=val1+val2+carry;
+		carry=sum/10;
+		sum=sum%10;
+		ans.push_back(sum);
+		i--;
+		j--;
+	}
+	while(i>=0){
+		int sum=a[i]+carry;
+		carry=sum/10;
+		sum=sum%10;
+		ans.push_back(sum);
+		i--;
+	}
+	while(j>=0){
+		int sum=b[j]+carry;
+		carry=sum/10;
+		sum=sum%10;
+		ans.push_back(sum);
+		j--;
+	}
+	while(carry!=0){
+		int sum=carry;
+		carry=sum/10;
+		sum=sum%10;
+		ans.push_back(sum);
+	}
+	return reverse(ans); 
+}
+
+
 void print_vector(vector<int>v){
     for(int i=0;i<v.size();i++){
         cout<<v[i]<<" ";
@@ -79,10 +141,55 @@ int main(){
 
 
 //Question 3
-    int arr[5]={2,4,0,0,1};
-    MovesZeroes(arr,5);
-    print_Array(arr,5);
+    // int arr[5]={2,4,0,0,1};
+    // MovesZeroes(arr,5);
+    // print_Array(arr,5);
 
+//question 4
+    // vector <int> v;
+    // v.push_back(11);
+    // v.push_back(7);
+    // v.push_back(3);
+    // v.push_back(12);
+    // v.push_back(4);
+    // int k=3;
+    // rotate(v,k);
+    // print_vector(v);
+
+
+//Question 5
+    // vector <int> v;
+    // v.push_back(2);
+    // v.push_back(2);
+    // v.push_back(3);
+    // v.push_back(12);
+    // v.push_back(-1);
+    // if(sortedAndRotated(v)){
+    //     cout<<"Vector is sorted and rotated";
+    // }
+    // else{
+    //     cout<<"Not";
+    // }
+
+
+//Question 6
+    vector <int> v;
+    v.push_back(1);
+    v.push_back(1);
+    v.push_back(0);
+    v.push_back(12);
+    v.push_back(-1);
+
+    vector <int> v2;
+    v2.push_back(0);
+    v2.push_back(0);
+    v2.push_back(3);
+    v2.push_back(4);
+    v2.push_back(5);
+    v2.push_back(6);
+
+    vector<int> ans=findArraySum(v,v.size(),v2,v2.size());
+    print_vector(ans);
 
 
     return 0;
