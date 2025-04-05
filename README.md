@@ -1,4 +1,4 @@
-Learning Data Structures and Algorithms (DSA) with C++
+Data Structures and Algorithms (DSA) with C++
 
 I am currently learning Data Structures and Algorithms (DSA) using C++. This repository contains my practice implementations and notes as I explore various concepts like arrays, linked lists, trees, graphs, sorting, searching, and dynamic programming.
 
