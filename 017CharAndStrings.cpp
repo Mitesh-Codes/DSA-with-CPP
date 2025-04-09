@@ -1,6 +1,7 @@
 #include<iostream>
 #include<string>
 #include<algorithm>
+#include<vector>
 using namespace std;
 
 int getLengthOfString(char name[]){
@@ -83,6 +84,131 @@ char getmaxOccuringChar(string s){
     return ans+'a';
 //time complexity is O(n) and space complexity is O(1)
 }
+
+
+void replaceSpaces(string &str) {
+    int spaceCount = 0;
+    int n = str.length();
+
+    for (char ch : str) {
+        if (ch == ' ') spaceCount++;
+    }
+
+    int newLength = n + spaceCount * 2;
+    str.resize(newLength); 
+
+ 
+    int i = n - 1;         
+    int j = newLength - 1;   
+
+
+    while (i >= 0) {
+        if (str[i] == ' ') {
+            str[j--] = '0';
+            str[j--] = '4';
+            str[j--] = '@';
+        } else {
+            str[j--] = str[i];
+        }
+        i--;
+    }
+}
+//2nd method with O(n) time complexity and O(n) space complexity
+string replaceSpaces_2nd_method(string &str){
+	string temp="";
+	for(int i=0;i<str.length();i++){
+		
+		if(str[i]==' '){
+			temp.push_back('@');
+			temp.push_back('4');
+			temp.push_back('0');
+		}
+		else{
+			temp.push_back(str[i]);
+		}
+		
+	}
+	return temp;
+}
+
+
+string removeOccurrences(string s, string part) {
+    while(s.length()!=0 && s.find(part)<s.length()){
+        s.erase(s.find(part),part.length());
+    }
+    return s;
+}
+
+
+bool checkInclusion(string s1, string s2) {
+    if (s1.length() > s2.length()) return false;
+
+    // Step 1: Count letters in s1
+    vector<int> count1(26, 0);
+    vector<int> count2(26, 0);
+
+    for (char ch : s1) {
+        count1[ch - 'a']++;
+    }
+
+    // Step 2: First window in s2
+    for (int i = 0; i < s1.length(); i++) {
+        count2[s2[i] - 'a']++;
+    }
+
+    // Step 3: Slide the window through s2
+    for (int i = 0; i <= s2.length() - s1.length(); i++) {
+        if (count1 == count2) return true;
+
+        // Slide window: remove first char, add next char
+        if (i + s1.length() < s2.length()) {
+            count2[s2[i] - 'a']--;                        // remove leftmost
+            count2[s2[i + s1.length()] - 'a']++;          // add new rightmost
+        }
+    }
+
+    return false;
+}
+
+
+int compress(vector<char>& chars) {
+    int i=0;
+    int ansIndex=0;
+    int n=chars.size();
+
+    while(i<n){
+        int j=i+1;
+        while(j<n && chars[i]==chars[j]){
+            j++;
+        }
+        chars[ansIndex++]=chars[i];
+        int count=j-i;
+
+        if(count>1){
+            string cnt=to_string(count);
+            for(char ch:cnt){
+                chars[ansIndex++]=ch;
+            }
+        }
+        i=j;
+    }
+    return ansIndex;
+//time complexity is O(n) and space complexity is O(1)
+}
+
+string removeDuplicates(string s) {
+    string result="";
+    for(char ch:s){
+        if(!result.empty() && result.back()==ch ){
+            result.pop_back();
+        }
+        else{
+            result.push_back(ch);
+        }
+    }
+    return result;
+
+}
     
 
 int main(){
@@ -116,11 +242,44 @@ int main(){
     // string result = reverseWords(input);
     // cout << "Reversed each word: " << result << endl;
 
-    string s;
-    cout<<"Enter a string: ";
-    cin>>s;
-    cout<<"Max occurring character is: "<<getmaxOccuringChar(s)<<endl;
+    // string s;
+    // cout<<"Enter a string: ";
+    // cin>>s;
+    // cout<<"Max occurring character is: "<<getmaxOccuringChar(s)<<endl;
 
+    // string str = "Mr John Smith";
+    // int trueLength = 13;
+    // replaceSpaces(str);
+    // cout << "String after replacing spaces: " << str << endl;
+
+
+    // string s="daabcbaabcbc";
+    // string part="abc";
+    // cout<<removeOccurrences(s,part)<<endl;
+
+
+    // string s1 = "ab";
+    // string s2 = "eidbaooo";
+    // if (checkInclusion(s1, s2)) {
+    //     cout << "s1's permutation is a substring of s2" << endl;
+    // } else {
+    //     cout << "s1's permutation is NOT a substring of s2" << endl;
+    // }
+
+   
+    // vector<char> chars = {'a', 'a', 'b', 'b', 'c', 'c', 'c'};
+    // int newLength = compress(chars);
+    // chars.resize(newLength); // Resize the vector to the new length
+    // cout << "Compressed string: ";
+    // for (char ch : chars) {
+    //     cout << ch;
+    // }
+    // cout << endl;
+
+    
+    string s = "abbaca";
+    string result = removeDuplicates(s);
+    cout << "String after removing duplicates: " << result << endl;
 
 
     return 0;
