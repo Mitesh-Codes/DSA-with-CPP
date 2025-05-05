@@ -168,10 +168,52 @@ int mergeAndCount(int *arr,int s,int e){
     return count;
 }
 
+
+//Quick Sort
+//time complexity: O(n^2) in worst case and O(n log n) in average case.
+//Space complexity: O(log n) or O(n) .
+int partition(int arr[],int s,int e){
+    int pivot=arr[s];
+    int count=0;
+    for(int i=s+1;i<=e;i++){    
+        if(arr[i]<=pivot){
+            count++;
+        }
+    }
+    int pivotIndex=s+count;
+    swap(arr[pivotIndex],arr[s]);
+    int i=s;
+    int j=e;
+    while(i<pivotIndex && j>pivotIndex){
+        while(i<pivotIndex && arr[i] <= pivot){
+            i++;
+        }
+        while(j>pivotIndex && arr[j]>=pivot){
+            j--;
+        }
+        if(i<pivotIndex && j>pivotIndex){
+            swap(arr[i++],arr[j--]);
+        }
+    }
+    return pivotIndex;
+
+}
+
+void quickSort(int arr[],int s,int e){
+    //Base case
+    if(s>=e){
+        return;
+    }
+    int p=partition(arr,s,e);
+
+    quickSort(arr,s,p-1);
+    quickSort(arr,p+1,e);
+}
+
 int main(){
 
-    int arr[]={324,32,443,5,4,345,34,64,365,75,75,65,46,45,34,454353,45,66,3243,3199,23,23};
-    int n=sizeof(arr)/sizeof(int);
+    //int arr[]={324,32,443,5,4,345,34,64,365,75,75,65,46,45,34,454353,45,66,3243,3199,23,23};
+    //int n=sizeof(arr)/sizeof(int);
     
     //BubbleSort(arr,n);
 
@@ -188,10 +230,26 @@ int main(){
 
 
     //Inversion Count using Merge Sort
-    int arr2[]={5,3,4,1,2};
-    int n2=sizeof(arr2)/sizeof(int);
-    int inversionCount=mergeAndCount(arr2,0,n2-1);
-    cout<<"Inversion Count: "<<inversionCount<<endl;
+    // int arr2[]={5,3,4,1,2};
+    // int n2=sizeof(arr2)/sizeof(int);
+    // int inversionCount=mergeAndCount(arr2,0,n2-1);
+    // cout<<"Inversion Count: "<<inversionCount<<endl;
+
+    
+    
+//Quick sort using recursion
+    //Time Complexity: O(n^2) in worst case and O(n log n) in average case.
+    //Space Complexity: O(log n) or O(n) .
+    int arr[]={-2,3,3,4,4,6};
+    int n=sizeof(arr)/sizeof(int);
+    quickSort(arr,0,n-1);
+
+    for(int i=0;i<n;i++){
+        cout<<arr[i]<<" ";
+
+    }
+    cout<<endl;
+
 
 
     return 0;
