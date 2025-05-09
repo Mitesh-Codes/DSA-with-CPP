@@ -4,11 +4,37 @@
 using namespace std;
 
 class hero{
-    public:
-    string name;
+
     private:
     int health;
-    //private:
+    public:
+    string *name;
+    //char level;
+    static int timetoComplete;
+
+    static int random(){
+        //cout<<name<<endl; // produce error , beacuse static functions can only access static members
+        cout<<timetoComplete<<endl;
+    }
+
+    
+    
+    //Constructor called by manually
+    hero(){
+        cout<<"Constructor callled"<<endl;
+    }
+
+    //Parameterised constructor
+    hero(int health,char level){
+        cout<<this<<endl;
+        this->health=health;
+        this->level=level;
+    }
+
+    //copy assignment operator
+
+
+    
     char level;
     //Getter and setter
     public:
@@ -24,7 +50,13 @@ class hero{
         cout<<level<<endl;
     //private class can be accessed only inside class
     }
+
+    ~hero(){
+        cout<<"Destructor called"<<endl;
+    }
 };
+
+int hero::timetoComplete=5;
 // class empty{
 
 // };
@@ -72,6 +104,24 @@ int main(){
     
     */
 
+    //Constructor
+    //hero paul(99,'A');
+      //Dynamically calling constructor
+    //hero *paul2=new hero;
+    //delete paul2; // destructor called manually for dynamic
+
+      //parameterised constructor
+    //cout<<&paul<<endl;
+    //paul.gethealth();
+    //paul.printf();
+
+    //hero jin=(paul); // copy constructor
+    //hero jin=paul; // copy assignment constructor
+  
+    //jin.printf();
+
+    //Static operater access
+    cout<<hero::timetoComplete<<endl;
     
 
     return 0;
