@@ -108,39 +108,10 @@ Node* uniqueUnsortedList2(Node* head) {
     return newHead;
 }
 
-//Approach 3: using hash map
+//Approach 3: using unordered_set
 //Time Complexity: O(n) and Space Complexity: O(n)
 Node*uniqueUnsortedList3(Node*head){
-    if(head==NULL){
-        return NULL;
-    }
-    map<int, bool> visited;
-    Node* curr = head;
-    Node* prev = NULL;
-
-    while (curr != NULL) {
-        if (visited[curr->data] == true) {
-            // Duplicate found – remove current node
-            prev->next = curr->next;
-            Node* nodeToDelete = curr;
-            curr = curr->next;
-            delete nodeToDelete;
-        } else {
-            // Not visited before
-            visited[curr->data] = true;
-            prev = curr;
-            curr = curr->next;
-        }
-    }
-    return head;
-
-    
-}
-
-//Approach 4: using set
-//Time Complexity: O(nlogn) and Space Complexity: O(n)
-Node* uniqueUnsortedListbest(Node* head) {
-    if (head == NULL) return NULL;
+   if (head == NULL) return NULL;
 
     unordered_set<int> seen;
     Node* curr = head;
@@ -160,12 +131,9 @@ Node* uniqueUnsortedListbest(Node* head) {
     }
 
     return head;
+
+    
 }
-
-
-
-
-
 
 int main(){
 
@@ -179,7 +147,7 @@ int main(){
     print(head);
     //head=uniqueSortedList(head);
 
-    head=uniqueUnsortedListbest(head);
+    head=uniqueUnsortedList3(head);
     print(head);
 
 
