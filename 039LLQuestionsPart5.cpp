@@ -1,6 +1,7 @@
 #include<iostream>
+#include<unordered_map>
 using namespace std;
-
+/*
 class Node {
   public:
     int data;
@@ -84,17 +85,119 @@ class ADD_twoLists {
     }
 };
 
-
+*/
 
 //Question12: Clone a linked list with next and random pointer
-//Time complexity:   , Space complexity: 
+//Approach: Using Mapping
+//Time complexity:O(n)  , Space complexity:O(n)
 
+class Node{
+    public:
+    int data;
+    Node* next;
+    Node*random;
 
+    Node(int data){
+        this->data=data;
+        this->next=NULL;
+        this->random=NULL;
+    }
+};
 
+void insertAtTail(Node*&head,Node*&tail,int d){
+    Node*newNode=new Node(d);
+    if(head==NULL){
+        head=newNode;
+        tail=newNode;
+        return;
+    }
+    else{
+        tail->next=newNode;
+        tail=newNode;
+    }
+}
+/*
+Node* copyRandomList(Node* head){
+    Node* cloneHead=NULL;
+    Node* cloneTail=NULL;
+    Node* temp=head;
+    while(temp!=NULL){
+        insertAtTail(cloneHead,cloneTail,temp->data);
+        temp=temp->next;
+    }
+    unordered_map<Node*,Node*> oldToNewNode;
+    Node* originalNode=head;
+    Node* cloneNode=cloneHead;
+    while(originalNode!=NULL){
+        oldToNewNode[originalNode]=cloneNode;
+        originalNode=originalNode->next;
+        cloneNode=cloneNode->next;
+    }
+    originalNode=head;
+    cloneNode=cloneHead;
 
+    while(originalNode!=NULL){
+        cloneNode->random=oldToNewNode[originalNode->random];
+        originalNode=originalNode->next;
+        cloneNode=cloneNode->next;
+    }
+    return cloneHead;
+}
+*/
 
+//Approach2: intermixing the original and clone list
+//Time complexity:O(n), Space complexity: O(1)
 
-
+Node *cloneLinkedList(Node *head) {
+        // Write your code here
+        Node*cloneHead=NULL;
+        Node*cloneTail=NULL;
+        Node*temp=head;
+        while(temp!=NULL){
+            insertAtTail(cloneHead,cloneTail,temp->data);
+            temp=temp->next;
+        }
+        
+        Node* originalNode=head;
+        Node* cloneNode=cloneHead;
+        
+        while(originalNode!=NULL && cloneNode!=NULL){
+            Node* next=originalNode->next;
+            originalNode->next=cloneNode;
+            originalNode=next;
+            
+            next=cloneNode->next;
+            cloneNode->next=originalNode;
+            cloneNode=next;
+            
+        }
+        
+        temp=head;
+        while(temp!=NULL){
+            if(temp->next!=NULL){
+                temp->next->random=temp->random ? temp->random->next : temp->random;
+            }
+            temp=temp->next->next;
+        }
+        
+        originalNode=head;
+        cloneNode=cloneHead;
+        while(originalNode!=NULL && cloneNode!=NULL){
+            originalNode->next=cloneNode->next;
+            originalNode=originalNode->next;
+            if(originalNode!=NULL){
+                cloneNode->next=originalNode->next;
+            }
+            cloneNode=cloneNode->next;
+        }
+        
+        return cloneHead;
+        
+        
+        
+    }
+        
+    
 
 
 
@@ -113,26 +216,43 @@ int main(){
 //Question11: Add Two Numbers Represented by Linked Lists
 //Time complexity: O(n), Space complexity: O(max(n,m))
 
-    Node* node1=new Node(3);
-    node1->next=new Node(4);
+    // Node* node1=new Node(3);
+    // node1->next=new Node(4);
     
-    Node* node2=new Node(2);
-    node2->next=new Node(3);
-    node2->next->next=new Node(0);
+    // Node* node2=new Node(2);
+    // node2->next=new Node(3);
+    // node2->next->next=new Node(0);
 
-    Node* head=node1;
-    Node* head2=node2;
+    // Node* head=node1;
+    // Node* head2=node2;
 
-    ADD_twoLists obj;
-    Node* result = obj.addTwoLists(head, head2);
-    print(result);
+    //ADD_twoLists obj;
+    //Node* result = obj.addTwoLists(head, head2);
+    //print(result);
 
 
 
 
 
 //Question12: Clone a linked list with next and random pointer
-//Time complexity:  , Space complexity:
+//Approach1: using mapping
+//Time complexity:O(n), Space complexity:O(n)
+    Node* node1=new Node(1);
+    node1->next=new Node(2);
+    node1->next->next=new Node(3);
+    node1->next->next->next=new Node(4);
+
+    Node* head=node1;
+    //Node*clonedList=NULL;
+    //clonedList=copyRandomList(head);
+    //print(clonedList);
+    
+
+///Approach2: 
+//Time complexity:O(n), Space complexity: O(1)
+    Node*clonedList2=NULL;
+    clonedList2=cloneLinkedList(head);
+    print(clonedList2);
 
 
     return 0;
