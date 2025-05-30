@@ -90,7 +90,7 @@ class ADD_twoLists {
 //Question12: Clone a linked list with next and random pointer
 //Approach: Using Mapping
 //Time complexity:O(n)  , Space complexity:O(n)
-
+/*
 class Node{
     public:
     int data;
@@ -116,6 +116,7 @@ void insertAtTail(Node*&head,Node*&tail,int d){
         tail=newNode;
     }
 }
+*/
 /*
 Node* copyRandomList(Node* head){
     Node* cloneHead=NULL;
@@ -147,7 +148,7 @@ Node* copyRandomList(Node* head){
 
 //Approach2: intermixing the original and clone list
 //Time complexity:O(n), Space complexity: O(1)
-
+/*
 Node *cloneLinkedList(Node *head) {
         // Write your code here
         Node*cloneHead=NULL;
@@ -196,8 +197,154 @@ Node *cloneLinkedList(Node *head) {
         
         
     }
-        
-    
+*/
+
+//Question13: MergeSort in Linked List
+//Time complexity: O(nlogn), Space complexity: O(logn) for recursion stack
+/*
+class Node{
+  public:
+    int data;
+    Node * next;
+    Node(int data){
+        this->data=data;
+        this->next=NULL;
+    }
+};
+Node* findMid(Node*head){
+    Node*slow=head;
+    Node*fast=head->next;
+    while(fast!=NULL && fast->next!=NULL){
+        slow=slow->next;
+        fast=fast->next->next;
+    }
+    return slow;
+}
+Node*merge(Node*left,Node*right){
+    if(left==NULL){
+        return right;
+    }
+    if(right==NULL){
+        return left;
+    }
+    Node*ans=new Node(-1);
+    Node*temp=ans;
+
+    while(left!=NULL && right!=NULL){
+        if(left->data<right->data){
+            temp->next=left;
+            temp=left;
+            left=left->next;
+        }
+        else{
+            temp->next=right;
+            temp=right;
+            right=right->next;
+        }
+
+    }
+    while(left!=NULL){
+        temp->next=left;
+        temp=left;
+        left=left->next;
+    }
+    while(right!=NULL){
+        temp->next=right;
+        temp=right;
+        right=right->next;
+    }
+    ans=ans->next;
+    return ans;
+
+}
+Node* mergeSort(Node *head) {
+    if(head==NULL || head->next==NULL){
+        return head;
+    }
+    Node* mid=findMid(head);
+
+    Node*left=head;
+    Node*right=mid->next;
+
+    mid->next=NULL;
+    left=mergeSort(left);
+    right=mergeSort(right);
+
+    Node* result=merge(left,right);
+    return result;
+}
+
+*/
+
+//Question14: Flatten a linked list with next and child pointer
+//Time complexity: O(N * log n), Space complexity: O(log n))
+class Node {
+   public:
+ 		int data;
+ 		Node *next;
+  		Node *child;
+ 		Node() : data(0), next(nullptr), child(nullptr){};
+ 		Node(int x) : data(x), next(nullptr), child(nullptr) {}
+ 		Node(int x, Node *next, Node *child) : data(x), next(next), child(child) {}
+};
+Node*merge(Node*left,Node*right){
+    if(left==NULL){
+        return right;
+    }
+    if(right==NULL){
+        return left;
+    }
+    Node*ans=new Node(-1);
+    Node*temp=ans;
+
+    while(left!=NULL && right!=NULL){
+        if(left->data<right->data){
+            temp->child=left;
+            temp=left;
+            left=left->child;
+        }
+        else{
+            temp->child=right;
+            temp=right;
+            right=right->child;
+        }
+
+    }
+    while(left!=NULL){
+        temp->child=left;
+        temp=left;
+        left=left->child;
+    }
+    while(right!=NULL){
+        temp->child=right;
+        temp=right;
+        right=right->child;
+    }
+    ans=ans->child;
+    return ans;
+
+}
+Node* flattenLinkedList(Node* head) 
+{
+	if (head == NULL || head->next == NULL) {
+        return head;
+    }
+    Node* down =head;
+	Node* right=flattenLinkedList(head->next);
+    down->next=NULL;
+    Node* ans=merge(down,right);
+    return ans;
+}
+void print2(Node* head) {
+    Node* temp = head;
+    while (temp != NULL) {
+        cout << temp->data << " ";
+        temp = temp->child;  // Use child instead of next
+    }
+    cout << endl;
+}    
+
+
 
 
 
@@ -237,6 +384,7 @@ int main(){
 //Question12: Clone a linked list with next and random pointer
 //Approach1: using mapping
 //Time complexity:O(n), Space complexity:O(n)
+/*
     Node* node1=new Node(1);
     node1->next=new Node(2);
     node1->next->next=new Node(3);
@@ -253,6 +401,37 @@ int main(){
     Node*clonedList2=NULL;
     clonedList2=cloneLinkedList(head);
     print(clonedList2);
+
+
+*/
+
+//Question13: MergeSort in Linked List
+//Time complexity: O(nlogn), Space complexity: O(logn) for recursion stack
+    // Node* node1=new Node(6);
+    // node1->next=new Node(3);
+    // node1->next->next=new Node(2);
+    // node1->next->next->next=new Node(1);
+
+    // Node* head=node1;
+    // Node* sortedList=mergeSort(head);
+    // print(sortedList);
+
+
+//Question14: Flatten a linked list with next and child pointer
+//Time complexity: O(N * log n), Space complexity: O(log n)
+    Node* node1=new Node(5);
+    node1->child=new Node(10);
+    node1->child->child=new Node(19);
+    node1->next=new Node(7);
+    node1->next->child=new Node(8);
+    node1->next->child->child=new Node(30);
+    node1->next->next=new Node(20);
+    node1->next->next->child=new Node(22);
+    node1->next->next->child->child=new Node(50);
+
+    Node* head=node1;
+    head=flattenLinkedList(head);
+    print2(head);
 
 
     return 0;
