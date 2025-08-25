@@ -65,7 +65,7 @@ public:
         this->size=s;
         top1=-1;
         top2=s;
-        arr=new int(s);
+        arr=new int[s];
     }
     
     // Push in stack 1.
@@ -175,4 +175,5 @@ int main(){
 
 
     return 0;
+
 }
