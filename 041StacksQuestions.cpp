@@ -113,16 +113,88 @@ int largestRectangle(vector < int > & heights) {
     return area;
 }
 
+//Question12: Celebrity problem
+bool knows(vector<vector<int>>& mat,int a,int b,int n){
+  if(mat[a][b]==1){
+    return true;
+  }
+  else{
+    return false;
+  }
+}
+int celebrity(vector<vector<int>>& mat) {
+        // code here
+        int n=mat.size();
+        stack<int> s;
+        for(int i=0;i<n;i++){
+            s.push(i);
+        }
+        
+        while(s.size()>1){
+            int a=s.top();
+            s.pop();
+            int b=s.top();
+            s.pop();
+            
+            if(knows(mat,a,b,n)){
+                s.push(b);
+            }
+            else{
+                s.push(a);
+            }
+            
+        }
+        int ans=s.top();
+        //Verify
+        for(int i=0;i<n;i++){
+            if(i != ans && mat[ans][i] == 1) return -1;
+        }
+        
+        // Column check (everyone knows candidate)
+        for(int i=0;i<n;i++){
+            if(i != ans && mat[i][ans] == 0) return -1;
+        }
+        
+        return ans;
+        
+}
+
+//Question13: Max Rectangle
+int maxArea(vector<vector<int>> &mat) {
+        // code here
+        int n = mat.size();
+        int m=mat[0].size();
+        
+        int area=largestRectangle(mat[0]);
+        for(int i=1;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(mat[i][j]!=0){
+                    mat[i][j]=mat[i][j]+mat[i-1][j];
+                }
+                else{
+                    mat[i][j]=0;
+                }
+            }
+            area=max(area,largestRectangle(mat[i]));
+        }
+        return area;
+        
+        
+        
+    }
+
+
+
+
+
 
 int main(){
-
-    
-//Question9: Minimum cost to make string valid
+  //Question9: Minimum cost to make string valid
     // string str="{{{{}}";
     // cout<<findMinimumCost(str)<<endl;
 
 
-//Question10: Next smaller element
+  //Question10: Next smaller element
     // vector<int> arr={4,5,2,10,8};
     // int n=arr.size();
     // vector<int> ans=nextSmallerElement(arr,n);
@@ -131,10 +203,22 @@ int main(){
     // }
     // cout<<endl;
 
-//Question11: Largest rectangle in histogram
-    vector<int> heights={2,1,5,6,2,3};
-    cout<<largestRectangle(heights)<<endl;
+  //Question11: Largest rectangle in histogram
+    // vector<int> heights={2,1,5,6,2,3};
+    // cout<<largestRectangle(heights)<<endl;
 
+
+  //Question12: Celebrity problem
+    // vector<vector<int>> mat={{0,0,1,0},{0,0,1,0},{0,0,0,0},{0,0,1,0}};
+    // cout<<celebrity(mat)<<endl;
+
+  //Question13: Max rectangle
+    vector<vector<int>> mat={{0,1,1,0},{1,1,1,1},{1,1,1,1},{1,1,0,0}};
+    cout<<maxArea(mat)<<endl;
+
+    
+
+  
 
 
     return 0;
