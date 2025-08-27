@@ -181,7 +181,138 @@ int maxArea(vector<vector<int>> &mat) {
         
         
         
+}
+
+//Question14: N stacks in an array
+class NStack
+{
+    int *arr;
+    int *top;
+    int *next;
+
+    int n,s;
+    int freespot;
+public:
+    // Initialize your data structure.
+    NStack(int N, int S)
+    {
+        // Write your code here.
+        n=N;
+        s=S;
+        arr=new int[s];
+        top=new int[n];
+        next=new int[s];
+
+        for(int i=0;i<n;i++){
+            top[i]=-1;
+        }
+        for(int i=0;i<s;i++){
+            next[i]=i+1;
+        }
+        next[s-1]=-1;
+        freespot=0;
     }
+
+    // Pushes 'X' into the Mth stack. Returns true if it gets pushed into the stack, and false otherwise.
+    bool push(int x, int m)
+    {
+        // Write your code here.
+        if(freespot==-1){
+            return false;
+        }
+
+        int index=freespot;
+        freespot=next[index];
+        arr[index]=x;
+        next[index]=top[m-1];
+        top[m-1]=index;
+        return true;
+    }
+
+    // Pops top element from Mth Stack. Returns -1 if the stack is empty, otherwise returns the popped element.
+    int pop(int m)
+    {
+        // Write your code here.
+        if(top[m-1]==-1){
+            return -1;
+        }
+        int index=top[m-1];
+        top[m-1]=next[index];
+        next[index]=freespot;
+        freespot=index;
+        return arr[index];
+    }
+};
+
+
+
+//Question15: Design a stack that supports getMin() in O(1) time and O(1) extra space
+class SpecialStack {
+    stack<int>s;
+    int mini;
+    public:
+        
+    void push(int data) {
+        // Implement the push() function.
+        if(s.empty()){
+            s.push(data);
+            mini=data;
+        }
+        else{
+            if(data<mini){
+                s.push(2*data-mini);
+                mini=data;
+            }
+            else{
+                s.push(data);
+            }
+        }
+    }
+
+    int pop() {
+        // Implement the pop() function.
+        if(s.empty()){
+            return -1;
+
+        }
+        int curr=s.top();
+        s.pop();
+        if(curr>mini){
+            return curr;
+        }
+        else{
+            int prevMin=mini;
+            int val=2*mini-curr;
+            mini=val;
+            return prevMin;
+        }
+    }
+
+    int top() {
+        // Implement the top() function.
+        if(s.empty()){
+            return -1;
+        }
+        int curr=s.top();
+        if(curr<mini){
+            return mini;
+        }
+        else{
+            return curr;
+        }
+    }
+    bool isEmpty(){
+        return s.empty();
+    }
+
+    int getMin() {
+        // Implement the getMin() function.
+        if(s.empty()){
+            return -1;
+        }
+        return mini;
+    }  
+};
 
 
 
@@ -213,8 +344,45 @@ int main(){
     // cout<<celebrity(mat)<<endl;
 
   //Question13: Max rectangle
-    vector<vector<int>> mat={{0,1,1,0},{1,1,1,1},{1,1,1,1},{1,1,0,0}};
-    cout<<maxArea(mat)<<endl;
+    // vector<vector<int>> mat={{0,1,1,0},{1,1,1,1},{1,1,1,1},{1,1,0,0}};
+    // cout<<maxArea(mat)<<endl;
+
+  //Question14: N stacks in an array
+    // NStack s(3,6);
+    // s.push(15,1);
+    // s.push(45,1);
+    // s.push(17,2);
+    // s.push(49,3);
+    // s.push(39,2);
+    // s.push(11,1);
+    // s.push(9,3);
+    // s.push(7,2);
+    // cout<<s.pop(2)<<endl;
+    // cout<<s.pop(1)<<endl;
+    // cout<<s.pop(3)<<endl;
+
+
+  //Question15: Design a stack that supports getMin() in O(1) time and O(1) extra space
+    SpecialStack s;
+    s.push(10);
+    s.push(20);
+    cout<<s.getMin()<<endl;
+    s.push(5);
+    cout<<s.getMin()<<endl;
+    s.push(3);
+    cout<<s.getMin()<<endl;
+    s.pop();
+    cout<<s.getMin()<<endl;
+    s.pop();
+    cout<<s.top()<<endl;
+    cout<<s.getMin()<<endl;
+    
+
+
+
+    
+
+
 
     
 
