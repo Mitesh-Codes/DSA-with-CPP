@@ -1,6 +1,7 @@
 #include<iostream>
 #include<queue>
 #include<vector>
+#include<map>
 using namespace std;
 
 //Question2: Height of Binary Tree
@@ -254,6 +255,7 @@ bool isSumTree(Node* root) {
 */
 
 //Question7: ZigZag Tree Traversal
+/*
 struct Node {
     int data;
     Node *left;
@@ -298,6 +300,167 @@ vector<int> zigZagTraversal(Node* root) {
             }
         }
         return result;
+}
+*/
+
+
+//Question8: Boundary Traversal of Binary Tree
+/*
+class Node {
+  public:
+    int data;
+    Node* left;
+    Node* right;
+
+    // Constructor to initialize a new node
+    Node(int val) {
+        data = val;
+        left = NULL;
+        right = NULL;
+    }
+};
+void traversalLeft(Node *root, vector<int>&ans){
+        if((root==NULL) || (root->left==NULL && root->right==NULL)){
+            return;
+        }
+        ans.push_back(root->data);
+        if(root->left){
+            traversalLeft(root->left,ans);
+        }
+        else{
+            traversalLeft(root->right,ans);
+        }
+        
+}
+void traversalLeaf(Node*root, vector<int> &ans){
+        if(root==NULL){
+            return;
+        }
+        if((root->left==NULL) && (root->right==NULL)){
+            ans.push_back(root->data);
+            return;
+        }
+        
+        traversalLeaf(root->left,ans);
+        traversalLeaf(root->right,ans);
+}
+void traversalRight(Node*root, vector<int> &ans){
+        if((root==NULL) || (root->left==NULL && root->right==NULL)){
+            return;
+        }
+        if(root->right){
+            traversalRight(root->right,ans);
+        }
+        else{
+            traversalRight(root->left,ans);
+        }
+        
+        ans.push_back(root->data);
+}
+    
+vector<int> boundaryTraversal(Node *root) {
+        // code here
+        vector<int> ans;
+        if(root==NULL){
+            return ans;
+        }
+        ans.push_back(root->data);
+        traversalLeft(root->left, ans);
+        
+        traversalLeaf(root->left,ans);
+        traversalLeaf(root->right,ans);
+        
+        traversalRight(root->right,ans);
+        return ans;
+}
+*/
+
+//Question9: Vertical Order Traversal of Binary Tree
+/*
+class Node {
+  public:
+    int data;
+    Node* left;
+    Node* right;
+
+    // Constructor to initialize a new node
+    Node(int val) {
+        data = val;
+        left = NULL;
+        right = NULL;
+    }
+};
+vector<vector<int>> verticalOrder(Node *root) {
+        vector<vector<int>> ans;
+        if(root == NULL) return ans;
+        
+        // map<hd, vector of nodes>
+        map<int, vector<int>> nodes;
+        
+        // queue: node + horizontal distance
+        queue<pair<Node*, int>> q;
+        q.push({root, 0});
+        
+        while(!q.empty()) {
+            auto temp = q.front();
+            q.pop();
+            
+            Node* frontNode = temp.first;
+            int hd = temp.second;
+            
+            nodes[hd].push_back(frontNode->data);
+            
+            if(frontNode->left)
+                q.push({frontNode->left, hd-1});
+            if(frontNode->right)
+                q.push({frontNode->right, hd+1});
+        }
+        
+        // Collect results column by column
+        for(auto &col : nodes) {
+            ans.push_back(col.second);
+        }
+        return ans;
+}
+*/
+
+//Question10: Top View of Binary Tree
+struct Node
+{
+    int data;
+    Node* left;
+    Node* right;
+};
+vector<int> topView(Node *root) {
+        // code here
+        vector<int>ans;
+        if(root==NULL){
+            return ans;
+        }
+        map<int,int> topNode;
+        queue<pair<Node*,int>>q;
+        q.push(make_pair(root,0));
+        while(!q.empty()){
+            pair<Node*,int>temp=q.front();
+            q.pop();
+            Node*frontNode=temp.first;
+            int hd=temp.second;
+            
+            if(topNode.find(hd)==topNode.end()){
+                topNode[hd]=frontNode->data;
+            }
+            if(frontNode->left){
+                q.push(make_pair(frontNode->left,hd-1));
+            }
+            if(frontNode->right){
+                q.push(make_pair(frontNode->right,hd+1));
+            }
+            
+        }
+        for(auto i:topNode){
+            ans.push_back(i.second);
+        }
+        return ans;
 }
 
 
@@ -401,19 +564,70 @@ int main(){
 
 
 //Question7: ZigZag Tree Traversal
-    Node* root = new Node(1);
-    root->left = new Node(2);
-    root->right = new Node(3);
-    root->left->left = new Node(4);
-    root->left->right = new Node(5);
-    root->right->left = new Node(6);
-    root->right->right = new Node(7);
-    vector<int> result = zigZagTraversal(root);
-    cout << "ZigZag Traversal of the binary tree: ";
+    // Node* root = new Node(1);
+    // root->left = new Node(2);
+    // root->right = new Node(3);
+    // root->left->left = new Node(4);
+    // root->left->right = new Node(5);
+    // root->right->left = new Node(6);
+    // root->right->right = new Node(7);
+    // vector<int> result = zigZagTraversal(root);
+    // cout << "ZigZag Traversal of the binary tree: ";
+    // for (int val : result) {
+    //     cout << val << " ";
+    // }
+    // cout << endl;
+
+//Question8: Boundary Traversal of Binary Tree
+    // Node* root = new Node(20);
+    // root->left = new Node(8);
+    // root->right = new Node(22);
+    // root->left->left = new Node(4);
+    // root->left->right = new Node(12);
+    // root->left->right->left = new Node(10);
+    // root->left->right->right = new Node(14);
+    // root->right->right = new Node(25);
+    // vector<int> result = boundaryTraversal(root);
+    // cout << "Boundary Traversal of the binary tree: ";
+    // for (int val : result) {
+    //     cout << val << " ";
+    // }
+    // cout << endl;
+
+//Question9: Vertical Order Traversal of Binary Tree
+    // Node* root = new Node(1);
+    // root->left = new Node(2);
+    // root->right = new Node(3);
+    // root->left->left = new Node(4);
+    // root->left->right = new Node(5);
+    // root->right->left = new Node(6);
+    // root->right->right = new Node(7);
+    // vector<vector<int>> result = verticalOrder(root);
+    // cout << "Vertical Order Traversal of the binary tree: " << endl;
+    // for (const auto& vec : result) {
+    //     for (int val : vec) {
+    //         cout << val << " ";
+    //     }
+    //     cout << endl;
+    // }
+
+
+//Question10: Top View of Binary Tree 
+    Node* root = new Node{1};
+    root->left = new Node{2};
+    root->right = new Node{3};
+    root->left->right = new Node{4};
+    root->left->right->right = new Node{5};
+    root->left->right->right->right = new Node{6};
+    vector<int> result = topView(root);
+    cout << "Top View of the binary tree: ";
     for (int val : result) {
         cout << val << " ";
     }
     cout << endl;
+
+
+
 
 
 
