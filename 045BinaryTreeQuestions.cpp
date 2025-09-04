@@ -425,6 +425,7 @@ vector<vector<int>> verticalOrder(Node *root) {
 */
 
 //Question10: Top View of Binary Tree
+/*
 struct Node
 {
     int data;
@@ -460,6 +461,111 @@ vector<int> topView(Node *root) {
         for(auto i:topNode){
             ans.push_back(i.second);
         }
+        return ans;
+}
+*/
+
+//Question11: Bottom View of Binary Tree
+/*
+struct Node
+{
+    int data;
+    Node* left;
+    Node* right;
+};
+vector<int> bottomView(Node *root) {
+        // Your Code Here
+        vector<int>ans;
+        if(root==NULL){
+            return ans;
+        }
+        map<int,int> topNode;
+        queue<pair<Node*,int>>q;
+        q.push(make_pair(root,0));
+        while(!q.empty()){
+            pair<Node*,int>temp=q.front();
+            q.pop();
+            Node*frontNode=temp.first;
+            int hd=temp.second;
+            
+            topNode[hd]=frontNode->data;
+            if(frontNode->left){
+                q.push(make_pair(frontNode->left,hd-1));
+            }
+            if(frontNode->right){
+                q.push(make_pair(frontNode->right,hd+1));
+            }
+            
+        }
+        for(auto i:topNode){
+            ans.push_back(i.second);
+        }
+        return ans;
+}
+*/
+
+//Question12: Left View of Binary Tree
+/*
+class Node {
+public:
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int val) {
+        data = val;
+        left = nullptr;
+        right = nullptr;
+    }
+};
+void solve(Node* root,vector<int>&ans,int level){
+        if(root==NULL){
+            return;
+        }
+        if(level==ans.size()){
+            ans.push_back(root->data);
+        }
+        solve(root->left,ans,level+1);
+        solve(root->right,ans,level+1);
+        
+}
+vector<int> leftView(Node *root) {
+    // code here
+    vector<int>ans;
+    solve(root,ans,0);
+    return ans;
+}
+*/
+
+//Question13: Right View of Binary Tree
+class Node {
+  public:
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int val) {
+        data = val;
+        left = nullptr;
+        right = nullptr;
+    }
+};
+void solve(Node* root,vector<int>&ans,int level){
+        if(root==NULL){
+            return;
+        }
+        if(level==ans.size()){
+            ans.push_back(root->data);
+        }
+        solve(root->right,ans,level+1);
+        solve(root->left,ans,level+1);
+        
+        
+    }
+vector<int> rightView(Node *root) {
+        // code here
+        vector<int>ans;
+        solve(root,ans,0);
         return ans;
 }
 
@@ -613,28 +719,67 @@ int main(){
 
 
 //Question10: Top View of Binary Tree 
-    Node* root = new Node{1};
-    root->left = new Node{2};
-    root->right = new Node{3};
-    root->left->right = new Node{4};
-    root->left->right->right = new Node{5};
-    root->left->right->right->right = new Node{6};
-    vector<int> result = topView(root);
-    cout << "Top View of the binary tree: ";
+    // Node* root = new Node{1};
+    // root->left = new Node{2};
+    // root->right = new Node{3};
+    // root->left->right = new Node{4};
+    // root->left->right->right = new Node{5};
+    // root->left->right->right->right = new Node{6};
+    // vector<int> result = topView(root);
+    // cout << "Top View of the binary tree: ";
+    // for (int val : result) {
+    //     cout << val << " ";
+    // }
+    // cout << endl;
+
+//Quesrtion11: Bottom View of Binary Tree
+    // Node* root = new Node{20};
+    // root->left = new Node{8};
+    // root->right = new Node{22};
+    // root->left->left = new Node{5};
+    // root->left->right = new Node{3};
+    // root->right->right = new Node{25};
+    // root->left->right->left = new Node{10};
+    // root->left->right->right = new Node{14};
+    // vector<int> result = bottomView(root);
+    // cout << "Bottom View of the binary tree: ";
+    // for (int val : result) {
+    //     cout << val << " ";
+    // }
+    // cout << endl;
+
+
+//Question12: Left View of Binary Tree
+    // Node* root = new Node{20};
+    // root->left = new Node{8};
+    // root->right = new Node{22};
+    // root->left->left = new Node{5};
+    // root->left->right = new Node{3};
+    // root->right->right = new Node{25};
+    // root->left->right->left = new Node{10};
+    // root->left->right->right = new Node{14};
+    // vector<int> result = leftView(root);
+    // cout << "Left View of the binary tree: ";
+    // for (int val : result) {
+    //     cout << val << " ";
+    // }
+    // cout<<endl;
+
+//Question13: Right View of Binary Tree
+    Node* root = new Node{20};
+    root->left = new Node{8};
+    root->right = new Node{22};
+    root->left->left = new Node{5};
+    root->left->right = new Node{3};
+    root->right->right = new Node{25};
+    root->left->right->left = new Node{10};
+    root->left->right->right = new Node{14};
+    vector<int> result = rightView(root);
+    cout << "Right View of the binary tree: ";
     for (int val : result) {
         cout << val << " ";
     }
-    cout << endl;
-
-
-
-
-
-
-
-    
-
-
+    cout<<endl;
 
     return 0;
 }
