@@ -313,12 +313,56 @@ int minTime(Node* root, int target) {
 
 
 //Morris Traversal (TC: O(n), SC: O(1))
+void morrisTraversal(Node* root) {
+    Node* curr = root;
+    while (curr != NULL) {
+        if (curr->left == NULL) {
+            cout << curr->data << " ";
+            curr = curr->right; // move to next
+        } 
+        else {
+            // find inorder predecessor
+            Node* pre = curr->left;
+            while (pre->right != NULL && pre->right != curr) {
+                pre = pre->right;
+            }
 
-
-
+            // make thread
+            if (pre->right == NULL) {
+                pre->right = curr;
+                curr = curr->left;
+            }
+            // thread already exists
+            else {
+                pre->right = NULL;
+                cout << curr->data << " ";
+                curr = curr->right;
+            }
+        }
+    }
+}
 
 
 //Question22: Flatten Binary Tree To Linked List
+void flatten(Node *root) {
+        // code here
+        Node* curr=root;
+        while(curr!=NULL){
+            if(curr->left){
+                Node* pred=curr->left;
+                while(pred->right){
+                    pred=pred->right;
+                }
+                pred->right=curr->right;
+                curr->right=curr->left;
+                curr->left=NULL;
+            }
+            curr=curr->right;
+        }
+        
+        
+}
+
 
 
 
@@ -381,11 +425,18 @@ int main(){
 
 
 //Morris Traversal
-
+    //cout << "Morris Inorder Traversal: ";
+    //morrisTraversal(root);
 
 
 //Question22: Flatten Binary Tree To Linked List
-
+    flatten(root);   
+    Node* curr = root;
+    while (curr != NULL) {
+        cout << curr->data << " ";
+        curr = curr->right; 
+    }
+    cout << endl;
 
 
     
