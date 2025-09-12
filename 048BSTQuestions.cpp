@@ -402,6 +402,46 @@ BinaryTreeNode* mergeBST2(BinaryTreeNode *root1, BinaryTreeNode *root2)
 }
 
 
+//Question10: largest BST in a Binary Tree
+class info{
+    public:
+        int maxi;
+        int mini;
+        bool isBST;
+        int size;
+};
+info solve(BinaryTreeNode*root, int &ans){
+    if(root==NULL){
+        return { INT_MIN,INT_MAX,true,0};
+    }
+
+    info left=solve(root->left,ans);
+    info right=solve(root->right,ans);
+    info currNode;
+    currNode.size=left.size+right.size+1;
+    currNode.maxi=max(root->data,right.maxi);
+    currNode.mini=min(root->data,left.mini);
+
+    if(left.isBST && right.isBST && (root->data>left.maxi && root->data <right.mini)){
+        currNode.isBST=true;
+    }
+    else{
+        currNode.isBST=false;
+    }
+    if(currNode.isBST){
+        ans=max(ans,currNode.size);
+    }
+    return currNode;
+}
+
+
+int largestBST(BinaryTreeNode * root){
+    // Write your code here.
+    int maxSize=0;
+    info temp=solve(root,maxSize);
+    return maxSize;
+
+}
 
 
 
@@ -474,30 +514,25 @@ int main(){
     // cout << "\n\n";
 
 //Question9: Merge Two BST
-    cout<<"Merged BST (Level Order):"<<endl;
-    BinaryTreeNode* root1 = new BinaryTreeNode(2);
-    root1->left = new BinaryTreeNode(1);
-    root1->right = new BinaryTreeNode(4);
-    BinaryTreeNode* root2 = new BinaryTreeNode(9);
-    root2->left = new BinaryTreeNode(3);
-    root2->right = new BinaryTreeNode(12);
-    BinaryTreeNode* mergedRoot = mergeBST(root1, root2);
-    printLevelOrder(mergedRoot);
-    //Approach2:
-    cout<<"Merged BST using approach2 (Level Order):"<<endl;
-    BinaryTreeNode* mergedRoot2 = mergeBST2(root1, root2);
-    printLevelOrder(mergedRoot2);
+    // cout<<"Merged BST (Level Order):"<<endl;
+    // BinaryTreeNode* root1 = new BinaryTreeNode(2);
+    // root1->left = new BinaryTreeNode(1);
+    // root1->right = new BinaryTreeNode(4);
+    // BinaryTreeNode* root2 = new BinaryTreeNode(9);
+    // root2->left = new BinaryTreeNode(3);
+    // root2->right = new BinaryTreeNode(12);
+    // BinaryTreeNode* mergedRoot = mergeBST(root1, root2);
+    // printLevelOrder(mergedRoot);
+    // //Approach2:
+    // cout<<"Merged BST using approach2 (Level Order):"<<endl;
+    // BinaryTreeNode* mergedRoot2 = mergeBST2(root1, root2);
+    // printLevelOrder(mergedRoot2);
+
+
+//Question10: largest BST in a Binary Tree
+    cout<<"Size of largest BST is: "<<largestBST(root)<<endl;
 
 
 
-
-
-
-    
-
-
-    
-
-
-    return 0;
+	return 0;
 }
