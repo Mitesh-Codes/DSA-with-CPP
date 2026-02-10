@@ -3,7 +3,7 @@
 #include<climits>
 using namespace std;
 
-//Question3: minimmum no. of coins to make a given amount
+//Question2: minimmum no. of coins to make a given amount
 //Approach1:By recursion
 //Time complexity: O(m^n)  Space complexity: O(n)
 
@@ -92,7 +92,7 @@ int minimumElements3(vector<int>&num,int x){
 
 int main(){
 
-//Question3: minimmum no. of coins to make a given amount
+//Question2: minimmum no. of coins to make a given amount
 //Approach1:By recursion
     vector<int>num={1,2,3}; 
     int x=7;
@@ -114,4 +114,5 @@ int main(){
 
 
     return 0;
+
 }
